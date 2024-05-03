@@ -1,0 +1,251 @@
+/* INÍCIO CSS personalizado para tornar a imagem do logotipo responsiva */
+.img-fluid {
+    width: 100%; /* A largura da imagem será igual à largura do contêiner pai */
+    height: auto; /* A altura será ajustada automaticamente para manter a proporção original */
+}
+/* FIM CSS personalizado para tornar a imagem do logotipo responsiva */
+
+/* Ajuste de tamanho em diferentes pontos de interrupção */
+@media (min-width: 100px) {
+    .img-fluid {
+        width: 50px;
+        height: 50px;
+    }
+}
+
+@media (min-width: 768px) {
+    .img-fluid {
+        width: 75px;
+        height: 75px;
+    }
+}
+
+@media (min-width: 992px) {
+    .img-fluid {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .img-fluid {
+        width: 125px;
+        height: 125px;
+    }
+}
+
+/* Este código remove tanto a margem quanto o padding à esquerda e à direita do corpo do seu código */
+body {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
+/* definir o tamanho de todo o corpo do site */
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+/* CSS Responsivo e Atrativo para o Banner */
+#meuBanner {
+    margin-top: 55px; /* Ajuste este valor de acordo com a quantidade que você deseja mover o banner para baixo */
+}
+
+#meuBanner {
+    position: relative;
+    overflow: hidden;
+}
+
+#meuBanner .carousel-inner {
+    width: 100%;
+    max-height: 600px; /* Você pode ajustar este valor de acordo com suas necessidades */
+}
+
+#meuBanner .carousel-item {
+    position: relative;
+    display: none;
+    align-items: center;
+}
+
+#meuBanner .carousel-item.active {
+    display: block;
+}
+
+#meuBanner .carousel-item img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Isso ajudará a manter a proporção da imagem, independentemente do tamanho da tela */
+}
+
+/* Media queries para responsividade */
+@media (max-width: 768px) {
+    #meuBanner .carousel-inner {
+        max-height: 300px;
+    }
+}
+
+/* inicio bannerAgenciasProdutoras */
+
+#bannerAgenciasProdutoras{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#bannerAgenciasProdutoras li {
+    background-color: black;
+}
+/* fim bannerAgenciasProdutoras */
+
+/* inicio OportunidadesEmDestaque*/
+.OportunidadesEmDestaque .card:hover{
+    background-color: #eee;
+}
+/* fim OportunidadesEmDestaque*/
+
+.Atores:hover{
+    background-color: #eee;
+}
+
+/* inicio de rodapé */
+
+.redesSociais{
+    font-size: 80px;
+}
+.redesSociais a:hover{
+    color: #F7DB54 ;
+}
+.faleConosco p{
+    font-size: 20px;  
+}
+
+.faleConosco a{
+    font-size: 20px;
+}
+/* fim de rodapé */
+
+
+/* Inicio Administração */
+.adm{
+    background-color:#F7DB54;
+    padding-top: 55px;
+}
+
+.adm main{
+    background-color:white;
+    min-height: 500px;
+}
+
+.opcoes i{
+    font-size: 60px;
+    width: 100%;
+}
+
+.opcoes p{
+    font-size: 20px;
+}
+
+.opcoes a{
+    text-decoration: none !important;
+}
+
+.opcoes{
+    border:5px inset transparent;
+}
+
+/*quando mouse tiver sobre*/
+.opcoes a:hover{
+    color: #F7DB54;
+}
+
+.opcoes:hover{
+    border:5px inset lightgray;
+    border-radius: 10%;
+    background-color: #fafafa;
+}
+
+
+/*<!-- INICIO DO MENU LATERAL---------------->*/
+
+.menuAdm{
+    background-color:#eee;
+    text-align: right;
+    padding: 0px;
+}
+.menuAdm a{
+    text-decoration: none !important;
+    font-size: 20px;
+    color: blue;
+}
+.menuAdm a:hover{
+   color:  #F7DB54;
+}
+.menuAdm li{
+   list-style: none;
+   padding: 15px;
+   border-bottom: 2px solid gray;
+}
+.menuAdm li:hover{
+    border-bottom: 2px solid #F7DB54;
+    background-color: #333;
+}
+.menuAdm i{
+    font-size: 20px;
+    padding-left: 10%;
+}
+.menuAdm li a{
+    display: block;
+}
+/*<!-- FIM DO MENU LATERAL---------------->*/
+
+/* fim Administração */
+
+.card-img-top {
+    height: 390px;  /* Ajuste este valor conforme necessário */
+    object-fit: cover;  /* Isso fará com que a imagem cubra toda a área disponível, cortando o excesso */
+  }
+  
+  .card-body {
+    height: 180px;  /* Ajuste este valor conforme necessário */
+    overflow: auto;  /* Isso fará com que o conteúdo do cartão seja rolável se exceder a altura fixa */
+  }
+
+  /* Para galeria*/
+  .img {
+    max-height: 600px; /* Ajuste este valor conforme necessário */
+    width: 100%; /* Aumente este valor para aumentar a largura */
+    object-fit: cover; /* Isso ajudará a manter a proporção da imagem */
+  }
+
+  .bw-to-color {
+    filter: grayscale(100%);
+    transition: filter 0.3s ease;
+}
+
+.bw-to-color:hover {
+    filter: grayscale(0%);
+}
+
+  
+   /* Para cartoes dos atores populares*/
+  
+   .card-img {
+    width: 600px;
+    height: auto; /* Mantém a proporção original */
+}
+
+
+  /* -----------------ITENS--------------------*/
+
+  .itensCadastrados{
+    border: 2px solid lightgray;
+    border-radius: 10px;
+    padding: 15px;
+  }
+  .itensCadastrados:hover{
+        background: #ededed;
+
+  }

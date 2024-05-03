@@ -15,3 +15,16 @@ $(document).ready(function() {
       window.open($(this).attr('href'));
     });
 });
+
+window.onload = function() {
+    setTimeout(function(){
+        var messageDiv = document.getElementById('successMessage');
+        if (messageDiv) {
+            messageDiv.style.display='none';
+        }
+    }, 5000);
+}
+
+
+
+
