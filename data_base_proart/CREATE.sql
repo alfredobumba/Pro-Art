@@ -23,13 +23,18 @@ CREATE TABLE cidades(
 CREATE TABLE atores(
     id INT NOT NULL AUTO_INCREMENT,
     nome VARCHAR(70) NOT NULL,
+    genero ENUM('M', 'F') NOT NULL,
+    idade INT NOT NULL,
+    altura DECIMAL(3, 2) NOT NULl,
+    cache DECIMAL(10, 2),
+    linguas VARCHAR(255),
     biografia TEXT(600) NOT NULL,
     link VARCHAR(100),
     cidades_id INT NOT NULL,
     PRIMARY KEY(id),
-    constraint fk_atores_cidades
-		foreign key (cidades_id)
-        references cidades (id)
+    CONSTRAINT fk_atores_cidades
+        FOREIGN KEY (cidades_id)
+        REFERENCES cidades (id)
 )
 	ENGINE = InnoDB;
 

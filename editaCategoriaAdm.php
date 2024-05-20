@@ -51,131 +51,114 @@
       <!-- FIM DO MENU  SUPERIOR---------------->
 
       
-      <!-- INÍCIO DA VITRINE -->
-      <main class="container mt-5">
-    <h1  class="text-center">Categorias-Administração</h1><br>
+     <!-- INÍCIO DA VITRINE -->
+<main class="container mt-5">
+    <h1 class="text-center">Categorias-Administração</h1><br>
     <div class="row text-center">
         <div class="col-md-3 col-sm-3">
-        <?php include_once "menuAdm.html" ?>
+            <?php include_once "menuAdm.html" ?>
         </div>
-        <div class="col-md-9  col-sm-9">
-        <?php
-if(isset($_GET['eliminarCategoria'])){
-    $idCategoria = $_GET['eliminarCategoria'];
-    $sql = "CALL sp_deleta_categoria('$idCategoria', @saida, @rotulo);";
-    if($res=mysqli_query($con, $sql)) {
-        $reg=mysqli_fetch_assoc($res);
-        if (isset($reg['saida'])) {
-            $saida = $reg['saida'];
-        } else {
-            $saida = "Categoria  excluída com sucesso";
-        }
-        if (isset($reg['saida_rotulo'])) {
-            $rotulo = $reg['saida_rotulo'];
-        } else {
-            $rotulo = "";
-        }
+        <div class="col-md-9 col-sm-9">
+            <?php
+            if (isset($_GET['eliminarCategoria'])) {
+                $idCategoria = $_GET['eliminarCategoria'];
+                $sql = "CALL sp_deleta_categoria('$idCategoria', @saida, @rotulo);";
+                if ($res = mysqli_query($con, $sql)) {
+                    $reg = mysqli_fetch_assoc($res);
+                    $saida = isset($reg['saida']) ? $reg['saida'] : "Categoria excluída com sucesso";
+                    $rotulo = isset($reg['saida_rotulo']) ? $reg['saida_rotulo'] : "";
 
-        switch ($rotulo){
-            case 'Tudo certo!':
-                $alert = 'alert-success';
-                break;
-            case 'OPS!':
-                $alert = 'alert-warning';
-                break;
-            case 'ERRO!':
-                $alert = 'alert-danger';
-                break; 
-        }     
-        ?>
+                    switch ($rotulo) {
+                        case 'Tudo certo!':
+                            $alert = 'alert-success';
+                            break;
+                        case 'OPS!':
+                            $alert = 'alert-warning';
+                            break;
+                        case 'ERRO!':
+                            $alert = 'alert-danger';
+                            break;
+                    }
+                    ?>
 
-        <div class="alert <?php echo $alert; ?>" role="alert">
-            <h3><?php echo $rotulo; ?></h3>
-            <h3><?php echo $saida; ?></h3>
+                    <div class="alert <?php echo $alert; ?>" role="alert">
+                        <h3><?php echo $rotulo; ?></h3>
+                        <h3><?php echo $saida; ?></h3>
+                        <a href='categoriasAdm.php' class="alert-link" target='_self'>Voltar</a>
+                    </div>
 
-        <a href='categoriasAdm.php' class="alert-link" target='_self'>Voltar</a>  
+                    <?php
+                    mysqli_free_result($res); // Libera o resultado da memória
 
-        </div>
-        <?php
+                    // Adicione esta linha para limpar os resultados
+                    if (mysqli_more_results($con)) {
+                        while (mysqli_next_result($con)) {
+                            // Seu código aqui
+                        }
+                    }
+                } else {
+                    echo "ERRO ao executar a query ";
+                }
+            } else if (isset($_GET['editaCategoria'])) {
+                $_SESSION['idCategoria'] = $_GET['editaCategoria'];
+                $nomeCategoria = $_GET['nomeCategoria'];
+                ?>
 
-        mysqli_free_result($res); // Libera o resultado da memória
-
-        // Add this line to clear the results
-        if(mysqli_more_results($con)) {
-            while(mysqli_next_result($con)) {
-                // Seu código aqui
-            }
-        }
-    } else if(isset($_GET['editaCategoria'])) {
-        $_SESSION['idCategoria'] = $_GET['editaCategoria'];
-        $nomeCategoria = $_GET['nomeCategoria'];
-        ?>
-        
-        <h2 class="text-center">Alteração de categoria</h2>
-            <form name="fmCategorias" method="get" action="editaCategoriaAdm.php" onsubmit="return validaCampos()">
-                    <label>Nome da categoria:</label><br>
-                    <input type="text" name="txtCategoria" value="<?php echo  $nomeCategoria; ?>" class="form-control" maxlength="50"><br>
-                    <button type="submit" class="btn- btn-primary w-100" name="btnSubmitCategoria">Alterar categoria</button><br>
+                <h2 class="text-center">Alteração de categoria</h2>
+                <form name="fmCategorias" method="get" action="editaCategoriaAdm.php" onsubmit="return validaCampos()">
+                    <label for="txtCategoria">Nome da categoria:</label><br>
+                    <input type="text" id="txtCategoria" name="txtCategoria" value="<?php echo $nomeCategoria; ?>"
+                           class="form-control" maxlength="50"><br>
+                    <button type="submit" class="btn btn-primary w-100" name="btnSubmitCategoria">Alterar categoria
+                    </button><br>
                 </form>
                 <hr/>
-        <?php
-    }else if (isset($_GET['btnSubmitCategoria'])) {
-        $nomeCategoria = $_GET['txtCategoria'];
-        $idCategoria =  $_SESSION['idCategoria'];
-        unset($_SESSION['idCategoria']);
-        $sql = "CALL sp_edita_categoria('$idCategoria', ' $nomeCategoria' ,@saida, @rotulo);";
-    if($res=mysqli_query($con,$sql)){
-        $reg=mysqli_fetch_assoc($res);
-        $saida = $reg['saida'];
-        $rotulo = $reg['saida_rotulo'];
 
-        switch ($rotulo){
-            case 'Tudo certo!':
-                $alert = 'alert-success';
-                break;
-            case 'OPS!':
-                $alert = 'alert-warning';
-                break;
-            case 'ERRO!':
-                $alert = 'alert-danger';
-                break;  
-            }    
-        ?>
+                <?php
+            } else if (isset($_GET['btnSubmitCategoria'])) {
+                $nomeCategoria = $_GET['txtCategoria'];
+                $idCategoria = $_SESSION['idCategoria'];
+                unset($_SESSION['idCategoria']);
+                $sql = "CALL sp_altera_categoria('$idCategoria', '$nomeCategoria', @saida, @rotulo);";
 
-        <div class="alert <?php echo $alert; ?>" role="alert">
-            <h3><?php echo $rotulo; ?></h3>
-            <h3><?php echo $saida; ?></h3>
+                if ($res = mysqli_query($con, $sql)) {
+                    $reg = mysqli_fetch_assoc($res);
+                    $saida = $reg['saida'];
+                    $rotulo = $reg['saida_rotulo'];
 
-        <a href='categoriasAdm.php' class="alert-link" target='_self'>Voltar</a>  
+                    switch ($rotulo) {
+                        case 'Tudo certo!':
+                            $alert = 'alert-success';
+                            break;
+                        case 'OPS!':
+                            $alert = 'alert-warning';
+                            break;
+                        case 'ERRO!':
+                            $alert = 'alert-danger';
+                            break;
+                    }
+                    ?>
 
-        </div>
-        <?php
+                    <div class="alert <?php echo $alert; ?>" role="alert">
+                        <h3><?php echo $rotulo; ?></h3>
+                        <h3><?php echo $saida; ?></h3>
+                        <a href='categoriasAdm.php' class="alert-link" target='_self'>Voltar</a>
+                    </div>
 
-        mysqli_free_result($res); // Libera o resultado da memória
+                    <?php
+                    mysqli_free_result($res); // Libera o resultado da memória
 
-        // Add this line to clear the results
-        if(mysqli_more_results($con)) {
-            while(mysqli_next_result($con)) {
-                // Seu código aqui
+                    // Adicione esta linha para limpar os resultados
+                    if (mysqli_more_results($con)) {
+                        while (mysqli_next_result($con)) {
+                            // Seu código aqui
+                        }
+                    }
+                } else {
+                    echo "ERRO ao executar a query ";
+                }
             }
-        }
-    } else{
-        echo "ERRO ao executar a query ";
-    }
-} 
-
-    
-    }else{
-        echo "ERRO ao executar a query: " . mysqli_error($con);
-    }
-
-
-?>
-        </div>
-    </div>
-                <?php   
-                
-                ?>
+            ?>
 
 </div>
 </div>

@@ -46,132 +46,92 @@
 
       
       <!-- INÍCIO DA VITRINE -->
-      <br>
+        
+      <!-- INÍCIO DA VITRINE -->
+   
+
       <main class="container mt-5">
-    <h1  class="text-center">Categorias-Administração</h1><br>
+    <h1 class="text-center">Categorias-Administração</h1>
     <div class="row text-center">
         <div class="col-md-3 col-sm-3">
-        <?php include_once "menuAdm.html" ?>
+            <?php include_once "menuAdm.html"; ?>
         </div>
-        <div class="col-md-9  col-sm-9">
-        <?php
-if(isset($_GET['btnSubmitCategoria'])){
-    $nomeCategoria = $_GET['txtCategoria'];
-    $link = $nomeCategoria;
-    $sql = "CALL sp_cadastra_categoria('$nomeCategoria', '$link' ,@saida, @rotulo);";
-    if($res=mysqli_query($con,$sql)){
-        $reg=mysqli_fetch_assoc($res);
-        $saida = $reg['saida'];
-        $rotulo = $reg['saida_rotulo'];
+        <div class="col-md-9 col-sm-9">
+            <?php
+                $alert = '';  // Adicione esta linha para definir $alert antes do bloco if
 
-        switch ($rotulo){
-            case 'Tudo certo!':
-                $alert = 'alert-success';
-                break;
-            case 'OPS!':
-                $alert = 'alert-warning';
-                break;
-            case 'ERRO!':
-                $alert = 'alert-danger';
-                break;  
-            }    
-        ?>
-
-        <div class="alert <?php echo $alert; ?>" role="alert">
-            <h3><?php echo $rotulo; ?></h3>
-            <h3><?php echo $saida; ?></h3>
-
-        <a href='categoriasAdm.php' class="alert-link" target='_self'>Voltar</a>  
-
-        </div>
-        <?php
-
-        mysqli_free_result($res); // Libera o resultado da memória
-
-        // Add this line to clear the results
-        if(mysqli_more_results($con)) {
-            while(mysqli_next_result($con)) {
-                // Seu código aqui
-            }
-        }
-    } else{
-        echo "ERRO ao executar a query.";
-    }
-} 
-
-
-?>
-
-
+                if(isset($_GET['btnSubmitCategoria'])){
+                    $nomeCategoria = $_GET['txtCategoria'];
+                    $link = $nomeCategoria;
+                    $sql = "CALL sp_cadastra_categoria('$nomeCategoria', '$link' ,@saida, @rotulo);";
+                    if($res=mysqli_query($con,$sql)){
+                        $reg=mysqli_fetch_assoc($res);
+                        $saida = isset($reg['saida']) ? $reg['saida'] : '';
+                        $rotulo = isset($reg['saida_rotulo']) ? $reg['saida_rotulo'] : '';
+                        
+                        switch ($rotulo){
+                            case '!':
+                                $alert = 'alert-success';
+                                break;
+                            case 'OPS!':
+                                $alert = 'alert-warning';
+                                break;
+                            case 'ERRO!':
+                                $alert = 'alert-danger';
+                                break;  
+                        }    
+                        // Resto do código...
+                
+                        echo "<div class='alert $alert' role='alert'>";
+                        echo "<h3>$rotulo</h3>";
+                        echo "<h3>$saida</h3>";
+                        echo "<a href='categoriasAdm.php' class='alert-link' target='_self'>Voltar</a>";  
+                        echo "</div>";
+                        mysqli_free_result($res); // Libera o resultado da memória
+                        // Add this line to clear the results
+                        if(mysqli_more_results($con)) {
+                            while(mysqli_next_result($con)) {
+                                // Seu código aqui
+                            }
+                        }
+                    } else{
+                        echo "ERRO ao executar a query.";
+                    }
+                } 
+            ?>
             <h2 class="text-center">Cadastro de categorias</h2>
             <form name="fmCategorias" method="get" action="categoriasAdm.php" onsubmit="return validaCampos()">
-                    <label>Nome da categoria:</label><br>
-                    <input type="text" name="txtCategoria" class="form-control" maxlength="50"><br>
-                    <button type="submit" class="btn- btn-primary w-100" name="btnSubmitCategoria">Cadastrar</button><br>
-                </form>
-                <hr/>
-                <h2 class="text-center">Categorias Cadastradas:</h2>
-                <div class="row">
+                <label>Nome da categoria:</label><br>
+                <input type="text" name="txtCategoria" class="form-control" maxlength="50"><br>
+                <button type="submit" class="btn btn-primary w-100" name="btnSubmitCategoria">Cadastrar</button><br>
+            </form>
+            <hr/>
+            <h2 class="text-center">Categorias Cadastradas:</h2>
+            <div class="row">
                 <?php
-                   
-                   $sql = 'SELECT * from vw_retorna_categorias';
-if ($res=mysqli_query($con, $sql)) {
-    $nomeCategoria = array();
-    $linkCategoria = array();
-    $idCategoria = array();
-    $i = 0;
-    while($reg=mysqli_fetch_assoc($res)) {
-
-        $nomeCategoria[$i] = $reg['Nome_Categoria'];
-        $linkCategoria[$i] = $reg['Link_Categoria'];
-        $idCategoria[$i] = $reg['Id_Categoria'];
-        ?>
-
-        <div class="col-md-3 itensCadastrados text-center">
-        <h4><?php echo $nomeCategoria[$i]; ?></h4>
-        <div class="btn-group btn-group-sm" role="group" arial-label="Basic sample">
-        <a href="editaCategoriaAdm.php?editaCategoria=<?php echo $idCategoria[$i];?>&nomeCategoria=<?php echo $nomeCategoria[$i]; ?>" class="btn btn-primary">Editar</a>
-        <a href="editaCategoriaAdm.php?eliminarCategoria=<?php echo  $idCategoria[$i];?>" class="btn btn-primary" onclick="return confirm(' Tem certeza que deseja eliminar esta categoria?')">Eliminar</a>
-                </div>
-             </div>
-    
-         <?php
-              $i++;          
-             
-            }
-
-     }
-            
-         ?>
-            </div>  
-
-
-                <?php   
-                
+                    $sql = 'SELECT * from vw_retorna_categorias';
+                    if ($res=mysqli_query($con, $sql)) {
+                        $nomeCategoria = array();
+                        $linkCategoria = array();
+                        $idCategoria = array();
+                        $i = 0;
+                        while($reg=mysqli_fetch_assoc($res)) {
+                            $nomeCategoria[$i] = $reg['Nome_Categoria'];
+                            $linkCategoria[$i] = $reg['Link_Categoria'];
+                            $idCategoria[$i] = $reg['Id_Categoria'];
+                            echo "<div class='col-md-3 itensCadastrados text-center'>";
+                            echo "<h4>$nomeCategoria[$i]</h4>";
+                            echo "<div class='btn-group btn-group-sm' role='group' arial-label='Basic sample'>";
+                            echo "<a href='editaCategoriaAdm.php?editaCategoria=$idCategoria[$i]&nomeCategoria=$nomeCategoria[$i]' class='btn btn-primary'>Editar</a>";
+                            echo "<a href='editaCategoriaAdm.php?eliminarCategoria=$idCategoria[$i]' class='btn btn-primary' onclick='return confirm(\"Tem certeza que deseja eliminar esta categoria?\")'>Eliminar</a>";
+                            echo "</div></div>";
+                            $i++;          
+                        }
+                    }
                 ?>
-
-</div>
-</div>
-                <?php
-   mysqli_next_result($con); // Prepara o próximo conjunto de resultados
-   $sql = "SELECT * FROM categorias;";
-   if ($res = mysqli_query($con, $sql)) {
-       $nomeCategoria = array();
-       while($reg=mysqli_fetch_assoc($res)){
-           if (isset($reg['categoria'])) {
-               $nomeCategoria[] = $reg['categoria'];
-           }
-       }
-       mysqli_free_result($res); // Libera o resultado da memória
-       if (isset($nomeCategoria[0])) {
-           echo $nomeCategoria[0];
-       }
-   } else {
-       echo "Erro ao executar a consulta: " . mysqli_error($con);
-   }
-?>
-
-
+            </div>
+        </div>
+    </div>
 </main>
 
 <!-- FECHANDO A CONEXÃO COM O BANCO DE DADOS -->
