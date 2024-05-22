@@ -1,23 +1,16 @@
 <?php
-require 'conexao.php';
+require 'conexao.php'; // Verifique se este é o arquivo correto para a conexão ao banco de dados.
 
-// Consulta SQL para obter dados
-$sql = "SELECT atores.*, ofertas_atores.* FROM atores 
-JOIN ofertas_atores ON atores.id = ofertas_atores.atores_id";
-
-
+// Consulta SQL para obter a contagem de atores por gênero
+$sql = "SELECT genero, COUNT(*) as count FROM atores GROUP BY genero";
 $result = mysqli_query($con, $sql);
 
-$atores = [];
-$ofertas = [];
-
-if (mysqli_num_rows($result) > 0) {
-  // Processar cada linha de resultado
-  while($row = mysqli_fetch_assoc($result)) {
-    $atores[] = $row["nome"];
-    $filmes[] = $row["ofertas_atores"];
-  }
-} else {
-  echo "0 results";
+// Preparar os dados para o gráfico
+$chart_data = [['Gênero', 'Quantidade']];
+while ($row = mysqli_fetch_assoc($result)) {
+    $chart_data[] = [$row['genero'] == 'M' ? 'Masculino' : 'Feminino', (int)$row['count']];
 }
+
+// Converter os dados do gráfico para JSON
+$chart_data_json = json_encode($chart_data);
 ?>

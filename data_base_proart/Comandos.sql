@@ -4,3 +4,7 @@ USE proart;
 select * from atores;
 
 ALTER TABLE atores ADD COLUMN idade INT NOT NULL, ADD COLUMN altura DECIMAL(3, 2) NOT NULl, ADD COLUMN caché DOUBLE, ADD COLUMN linguas VARCHAR(255);
+ALTER TABLE atores ADD COLUMN genero ENUM('M', 'F') NOT NULL;
+
+ALTER TABLE atores CHANGE caché cache DECIMAL(10, 2);
+DESCRIBE atores;

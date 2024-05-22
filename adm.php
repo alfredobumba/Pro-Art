@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<?php
+    if (!isset($_SESSION)) {
+        session_start();
+
+    }
+    if ($_SESSION['acesso'] == true) {
+?>
+<head>
       <?php
           include_once "header.html";?>
 
@@ -117,7 +124,7 @@
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="logoff.php">
             <i class="fa fa-sign-out" aria-hidden="true"></i>
                 <p>Sair</p>
             </a>
@@ -125,5 +132,12 @@
         </div>
 </main>
 
-</body>     
+</body>
+<?php
+    }else{
+        ?>
+        <meta http-equiv="refresh" content=0;url="login.php">
+        <?php
+    }
+?>     
 </html>

@@ -1,64 +1,34 @@
+<?php
+require 'conexao.php'; 
+require 'consulta.php';
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Estatísticas de Atores</title>
-    <!-- Inclua o CSS do Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>Estatísticas de Atores</title>
 </head>
 <body>
-    <div class="container">
-        <h2 class="text-center my-4">Estatísticas de Atores</h2>
-        <div class="row">
-            <div class="col-lg-6 col-md-12">
-                <canvas id="barChart"></canvas>
-            </div>
-            <div class="col-lg-6 col-md-12">
-                <canvas id="pieChart"></canvas>
-            </div>
-        </div>
-    </div>
-    <!-- Seu código PHP e JavaScript aqui -->
-    <?php
-require 'consulta.php';
-require 'conexao.php';
+    <div id="piechart" style="width: 900px; height: 500px;"></div>
 
-?>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
 
-<script>
-    var ctxBar = document.getElementById('barChart').getContext('2d');
-    var barChart = new Chart(ctxBar, {
-        type: 'bar',
-        data: {
-            labels: <?php echo json_encode($atores); ?>,
-            datasets: [{
-                label: 'Número de Ofertas',
-                data: <?php echo json_encode($ofertas); ?>,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)'
-            }]
-        }
-    });
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable(<?php echo $chart_data_json; ?>);
 
-    var ctxPie = document.getElementById('pieChart').getContext('2d');
-    var pieChart = new Chart(ctxPie, {
-        type: 'pie',
-        data: {
-            labels: <?php echo json_encode($atores); ?>,
-            datasets: [{
-                label: 'Número de Ofertas',
-                data: <?php echo json_encode($ofertas); ?>,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)'
-                ]
-            }]
-        }
-    });
-</script>
+        var options = {
+          title: 'Gráfico circular de gênero'
+        };
 
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
 </body>
 </html>

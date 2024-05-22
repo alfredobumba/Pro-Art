@@ -2,7 +2,9 @@
 <?php
     if (!isset($_SESSION)) {
         session_start();
+
     }
+    if ($_SESSION['acesso'] == true) {
 ?>
 <html>
   <head>
@@ -188,4 +190,11 @@
 <?php if(isset($con)) { mysqli_close($con); } ?>
 
 </body>
+<?php
+    }else{
+        ?>
+        <meta http-equiv="refresh" content=0;url="login.php">
+        <?php
+    }
+?>    
 </html>
