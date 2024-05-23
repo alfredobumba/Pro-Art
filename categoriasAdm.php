@@ -56,8 +56,8 @@
         
       <!-- INÍCIO DA VITRINE -->
    
-
-      <main class="container mt-5">
+    <br>
+    <main class="container mt-5">
     <h1 class="text-center">Categorias-Administração</h1>
     <div class="row text-center">
         <div class="col-md-3 col-sm-3">
@@ -113,7 +113,7 @@
                 <button type="submit" class="btn btn-primary w-100" name="btnSubmitCategoria">Cadastrar</button><br>
             </form>
             <hr/>
-            <h2 class="text-center">Categorias Cadastradas:</h2>
+            <h2 class="text-center">Categorias Cadastradas:</h2><br>
             <div class="row">
                 <?php
                     $sql = 'SELECT * from vw_retorna_categorias';
