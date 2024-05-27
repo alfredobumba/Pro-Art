@@ -103,14 +103,14 @@
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="cidadesAdm.php">
+            <a href="#">
             <i class="fa fa-city" aria-hidden="true"></i>
                 <p>Cidades</p>
             </a>
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="usuariosAdm.php">
+            <a href="#">
             <i class="fa fa-users" aria-hidden="true"></i>
                 <p>Usuarios</p>
             </a>
