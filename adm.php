@@ -82,7 +82,7 @@
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="atoresAdm.php">
             <i class="fas fa-theater-masks"></i>
                 <p>Atores</p>
             </a>
@@ -103,14 +103,14 @@
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="cidadesAdm.php">
             <i class="fa fa-city" aria-hidden="true"></i>
                 <p>Cidades</p>
             </a>
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="usuariosAdm.php">
             <i class="fa fa-users" aria-hidden="true"></i>
                 <p>Usuarios</p>
             </a>
@@ -120,6 +120,13 @@
             <a href="#">
             <i class="fa fa-gear" aria-hidden="true"></i>
                 <p>Minha Conta</p>
+            </a>
+            </div>
+
+            <div class="col-md-3 opcoes">
+            <a href="subirimagem.php">
+            <i class="fa fa-gear" aria-hidden="true"></i>
+                <p>Subir Imagem</p>
             </a>
             </div>
 

@@ -1,16 +1,34 @@
 <?php
-require 'conexao.php'; // Verifique se este é o arquivo correto para a conexão ao banco de dados.
+require 'conexao.php'; 
 
-// Consulta SQL para obter a contagem de atores por gênero
-$sql = "SELECT genero, COUNT(*) as count FROM atores GROUP BY genero";
-$result = mysqli_query($con, $sql);
+// Consulta para obter a percentagem de gêneros
+$sql_genero = "SELECT genero, COUNT(*) as count FROM atores GROUP BY genero";
+$buscar_genero = mysqli_query($con, $sql_genero);
 
-// Preparar os dados para o gráfico
-$chart_data = [['Gênero', 'Quantidade']];
-while ($row = mysqli_fetch_assoc($result)) {
-    $chart_data[] = [$row['genero'] == 'M' ? 'Masculino' : 'Feminino', (int)$row['count']];
+if (!$buscar_genero) {
+    die('Erro na consulta de gêneros: ' . mysqli_error($con));
 }
 
-// Converter os dados do gráfico para JSON
-$chart_data_json = json_encode($chart_data);
+$total_genero = 0;
+$genero_counts = array();
+
+while ($atores = mysqli_fetch_array($buscar_genero)) {
+    $genero = $atores['genero'];
+    $count = $atores['count'];
+    $total_genero += $count;
+    $genero_counts[$genero] = $count;
+}
+
+// Consulta para obter os dados do histograma de cache
+$sql_cache = "SELECT genero, cache FROM atores LIMIT 15";
+$buscar_cache = mysqli_query($con, $sql_cache);
+
+if (!$buscar_cache) {
+    die('Erro na consulta de cache: ' . mysqli_error($con));
+}
+
+$atores_data = array();
+while ($ator = mysqli_fetch_array($buscar_cache)) {
+    $atores_data[] = array($ator['genero'], $ator['cache']);
+}
 ?>

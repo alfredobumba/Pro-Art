@@ -317,36 +317,29 @@
   
   <!-- galeria------------------------------>
   <div class="container" style="width: 90%">
-  <div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 1">
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 2">
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 3">
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 4">
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 5">
-    </div>
-    <div class="col-lg-4 col-md-6 col-sm-6">
-      <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 6">
+    <div class="row">
+     <div class="col-lg-4 col-md-6 col-sm-6">
+        <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 1">
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
+       <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 2">
+     </div>
+     <div class="col-lg-4 col-md-6 col-sm-6">
+        <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 3">
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 4">
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
+       <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 5">
+      </div>
+      <div class="col-lg-4 col-md-6 col-sm-6">
+        <img src="imagens/atores/ator1.jpeg" class="img bw-to-color" alt="Descrição da imagem 6">
+     </div>
     </div>
   </div>
-</div>
 
-<div class="card" style="width: 18rem;">
-<img src="imagens/atores/ator1.jpeg" class="img" alt="Descrição da imagem 6">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="btn btn-primary">Saiba mais</a>
-  </div>
-</div>
+
 
 </main>
 

@@ -1,10 +1,17 @@
 <!DOCTYPE html>
+<?php
+    if (!isset($_SESSION)) {
+        session_start();
+
+    }
+    if ($_SESSION['acesso'] == true) {
+?>
 <html>
   <head>
       <?php
           include_once "header.html";?>
 
-      <title>Administração</title>
+      <title>Cadastro de Agências</title>
       <link rel="shortcut icon" href="imagens/logotipo/logotipo1.png">
   </head>
   <body class="adm">
@@ -27,5 +34,12 @@
         </div>
 </main>
 
-</body>     
+</body> 
+<?php
+    }else{
+        ?>
+        <meta http-equiv="refresh" content=0;url="login.php">
+        <?php
+    }
+?>      
 </html>
