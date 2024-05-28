@@ -175,7 +175,7 @@
         bar: { gap: 0 }
       };
 
-      var chart = new google.visualization.Histogram(document.getElementById('histogram_chart'));
+      var chart = new google.visualization.Histogram(document.getElementById('histogram_chart')); 
       chart.draw(data, options);
     }
   </script>
