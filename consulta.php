@@ -31,4 +31,14 @@ $atores_data = array();
 while ($ator = mysqli_fetch_array($buscar_cache)) {
     $atores_data[] = array($ator['genero'], $ator['cache']);
 }
+
+// Consulta para calcular o valor médio das idades
+$sql_media_idade = "SELECT AVG(idade) AS media_idade FROM atores";
+$resultado_media_idade = mysqli_query($con, $sql_media_idade);
+$media_idade = 0;
+
+if ($resultado_media_idade) {
+    $linha = mysqli_fetch_assoc($resultado_media_idade);
+    $media_idade = $linha['media_idade'];
+}
 ?>

@@ -283,38 +283,16 @@
     <li data-target="#bannerAgenciasProdutoras" data-slide-to="4"></li>
     
   </ol>
+  </div>
 <!-- INDICANDORES------------------------------>
 
 <!-- CONTROLES------------------------------>
 
 <!-- FIM DOS CONTROLES------------------------------>
 
-  </div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-50">
-        <div class="flip-box">
-          <div class="flip-box-inner">
-            <div class="flip-box-front">
-              <h3 class="flip-box-title">Portugal continental</h3>
-              <p class="flip-box-description">Ver Local</p>
-            </div>
-            <div class="flip-box-back">
-              <h3 class="flip-box-title">Portugal continental</h3>
-              <p class="flip-box-description">
-              <br><br>Portugal
-              </p>
-              <a class="btn btn-sm btn-primary" id="googleMapsBtn" href="https://www.google.pt/maps/@38.6392059,-9.1566962,15z?entry=ttu" target="_blank">Google Maps</a>
 
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  
+
   <!-- galeria------------------------------>
   <div class="container" style="width: 90%">
     <div class="row">
@@ -338,6 +316,57 @@
      </div>
     </div>
   </div>
+<br>
+<br>
+<br>
+<title>Mapa com PHP</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        const map = L.map('map').setView([51.505, -0.09], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        function success(pos) {
+            const lat = pos.coords.latitude;
+            const lng = pos.coords.longitude;
+            const accuracy = pos.coords.accuracy;
+
+            map.setView([lat, lng]);
+        }
+
+        function error(err) {
+            if (err.code === 1) {
+                alert("Por favor, permita o acesso à geolocalização.");
+            } else {
+                alert("Não é possível obter a localização atual.");
+            }
+        }
+
+        navigator.geolocation.watchPosition(success, error);
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
