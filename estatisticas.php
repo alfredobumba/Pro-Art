@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<?php
+        include_once "header.html";
+    ?>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -119,11 +123,11 @@
         },
         bar: { groupWidth: "95%" }
       };
-
+      
       var chart = new google.visualization.BarChart(document.getElementById('barchart'));
       chart.draw(data, options);
     }
-
+    
     function drawHistogram() {
       var data = google.visualization.arrayToDataTable([
         ['Nome', 'Cache'],
@@ -187,12 +191,16 @@
     }
     .chart {
       width: 80%;
-      height: 500px;
+      height: 400px;
       margin: 20px;
     }
   </style>
+  <br><br>
+    <a href='Adm.php' class='btn btn-primary mt-3' target='_self'>Voltar</a>
 </head>
 <body>
+   <!-- Inicio DO MENU  SUPERIOR---------------->
+   <?php include_once "menuSuperior.html";?>
   <div class="container-fluid" style="margin-top: 50px;">
     <div class="chart-container">
       <div id="piechart" class="chart"></div>
@@ -200,7 +208,6 @@
       <div id="histogram_chart" class="chart"></div>
     </div>
   </div>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>

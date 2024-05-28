@@ -103,6 +103,13 @@
             </div>
 
             <div class="col-md-3 opcoes">
+            <a href="estatisticas.php">
+            <i class="fa fa-th-large" aria-hidden="true"></i>
+                <p>Dashboard</p>
+            </a>
+            </div>
+
+            <div class="col-md-3 opcoes">
             <a href="cidadesAdm.php">
             <i class="fa fa-city" aria-hidden="true"></i>
                 <p>Cidades</p>
