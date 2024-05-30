@@ -155,3 +155,32 @@ CREATE TABLE ofertas_categorias(
 		foreign key (categorias_id)
         references categorias (id)
 )	ENGINE = InnoDB;
+
+CREATE TABLE markers (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(60) NOT NULL,
+    address VARCHAR(80) NOT NULL,
+    lat FLOAT(10, 6) NOT NULL,
+    lng FLOAT(10, 6) NOT NULL,
+    type VARCHAR(30) NOT NULL
+) ENGINE = InnoDB;
+
+ALTER TABLE atores
+ADD COLUMN markers_id INT,
+ADD CONSTRAINT fk_atores_markers
+FOREIGN KEY (markers_id)
+REFERENCES markers(id);
+
+ALTER TABLE produtoras
+ADD COLUMN markers_id INT,
+ADD CONSTRAINT fk_produtoras_markers
+FOREIGN KEY (markers_id)
+REFERENCES markers(id);
+
+ALTER TABLE agencias
+ADD COLUMN markers_id INT,
+ADD CONSTRAINT fk_agencias_markers
+FOREIGN KEY (markers_id)
+REFERENCES markers(id);
+
+

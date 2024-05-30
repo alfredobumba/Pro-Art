@@ -96,7 +96,7 @@
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="banner.php">
             <i class="fa fa-th-large" aria-hidden="true"></i>
                 <p>Banner Principal</p>
             </a>

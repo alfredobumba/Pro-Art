@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<?php
-        include_once "header.html";
-    ?>
-
+  <?php include_once "header.html"; ?>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -50,7 +47,6 @@
       ]);
 
       var options = {
-        title: 'Gênero dos atores',
         colors: ['#1E90FF', '#FF69B4'],
         pieHole: 0.4,
         pieSliceText: 'percentage',
@@ -76,7 +72,7 @@
 
     function drawBarChart() {
       var data = google.visualization.arrayToDataTable([
-        ['Ator', 'Idade'],
+        ['Ator', 'Idade', { role: 'style' }],
         <?php
         include 'conexao.php';
 
@@ -90,15 +86,25 @@
         while ($atores = mysqli_fetch_array($buscar)) {
           $nome = $atores['nome'];
           $idade = $atores['idade'];
-          echo "['$nome', $idade],";
+          echo "['$nome', $idade, '#e7711c'],";
         }
         ?>
       ]);
 
+      var view = new google.visualization.DataView(data);
+      view.setColumns([0, 1,
+        { calc: "stringify",
+          sourceColumn: 1,
+          type: "string",
+          role: "annotation" },
+        2]);
+
       var options = {
-        title: 'Idade dos Atores',
-        legend: { position: 'none' },
-        colors: ['#e7711c'],
+        title: "Idade dos Atores",
+        width: 600,
+        height: 400,
+        bar: {groupWidth: "95%"},
+        legend: { position: "none" },
         hAxis: {
           title: 'Idade',
           titleTextStyle: {
@@ -120,12 +126,11 @@
         chartArea: {
           width: '90%',
           height: '80%'
-        },
-        bar: { groupWidth: "95%" }
+        }
       };
-      
-      var chart = new google.visualization.BarChart(document.getElementById('barchart'));
-      chart.draw(data, options);
+
+      var chart = new google.visualization.ColumnChart(document.getElementById('barchart'));
+      chart.draw(view, options);
     }
     
     function drawHistogram() {
@@ -150,11 +155,10 @@
       ]);
 
       var options = {
-        title: 'Distribuição do Cache dos Atores',
         legend: { position: 'none' },
         colors: ['#e44d26'],
         hAxis: {
-          title: 'Cache',
+          title: 'Cachê',
           titleTextStyle: {
             italic: false,
             bold: true
@@ -195,19 +199,38 @@
       margin: 20px;
     }
   </style>
-  <br><br>
-    <a href='Adm.php' class='btn btn-primary mt-3' target='_self'>Voltar</a>
 </head>
 <body>
-   <!-- Inicio DO MENU  SUPERIOR---------------->
-   <?php include_once "menuSuperior.html";?>
-  <div class="container-fluid" style="margin-top: 50px;">
-    <div class="chart-container">
-      <div id="piechart" class="chart"></div>
-      <div id="barchart" class="chart"></div>
-      <div id="histogram_chart" class="chart"></div>
+  <!-- Inicio DO MENU SUPERIOR---------------->
+  <?php include_once "menuSuperior.html"; ?>
+  <!-- FIM DO MENU SUPERIOR------------------>
+  <br><br><br>
+  <main class="container">
+    <div class="row">
+      <!-- INICIO DO MENU LATERAL---------------->
+      <div class="col-md-3 col-sm-3">
+        <?php include_once "menuAdm.html"; ?>
+      </div>
+      <!-- FIM DO MENU LATERAL------------------>
+
+      <div class="col-md-9 col-sm-9">
+        <div class="chart-container">
+          <br>
+          <h2>Gênero dos atores</h2>
+          <div id="piechart" class="chart"></div>
+
+          <br>
+          <h2>Idade dos Atores</h2>
+          <div id="barchart" class="chart"></div>
+
+          <br>
+          <h2>Distribuição do Cachê dos Atores</h2>
+          <div id="histogram_chart" class="chart"></div>
+        </div>
+      </div>
     </div>
-  </div>
+  </main>
+
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
