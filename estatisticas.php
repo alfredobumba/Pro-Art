@@ -100,7 +100,6 @@
         2]);
 
       var options = {
-        title: "Idade dos Atores",
         width: 600,
         height: 400,
         bar: {groupWidth: "95%"},

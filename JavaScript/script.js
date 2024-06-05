@@ -8,13 +8,6 @@ $(document).ready(function() {
     });
 });
 
-$(document).ready(function() {
-    $('#googleMapsBtn').click(function(event) {
-      event.preventDefault();
-      alert('Você será redirecionado para o Google Maps.');
-      window.open($(this).attr('href'));
-    });
-});
 
 window.onload = function() {
     setTimeout(function(){

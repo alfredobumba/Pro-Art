@@ -91,6 +91,9 @@
                     
                     $sql = "CALL sp_cadastra_atores('$nome','$cidade', '$bio', '$idade', '$altura', '$cache', '$linguas', '$genero', '$nomeImagem1', '$nomeImagem2', '$nomeImagem3',@saida, @saida_rotulo)";
 
+
+                    executaQuery($sql, "atoresAdm.php");
+                    /*
                     if ($res = mysqli_query($con,$sql)) {
                         $reg = mysqli_fetch_assoc($res);
                         
@@ -130,23 +133,25 @@
                     } else {
                         echo "ERRO ao executar a query.";
                      }
+                     */
+
                 }else{
 
             
             ?>
             <ul class="nav nav-tabs" role="tablist">
+                 <li class=" nav-item" role="presentation">
+                    <a href="#tabExibicao" class="nav-link" id="linkExibicao" data-toggle="tab" role="tab" aria-controls="
+                    tabExibicao">Atores e atrizes cadastrados</a>
+                </li>
                 <li class=" nav-item" role="presentation">
                     <a href="#tabFormulario"  class="nav-link active" id="linkFormulario" data-toggle="tab" role="tab" aria-controls="
                     tabFormulario">Cadastro</a>
                 </li>
-                <li class=" nav-item" role="presentation">
-                    <a href="#tabExibicao" class="nav-link" id="linkExibicao" data-toggle="tab" role="tab" aria-controls="
-                    tabExibicao">Atores e atrizes cadastrados</a>
-                </li>
             </ul>
 
             <div class="tab-content" id="meusConteudos">
-                <div class="tab-pane fade show active" id="tabFormulario" role="tabpanel" aria-labelledby="linkFormulario">
+                <div class="tab-pane fade" id="tabFormulario" role="tabpanel" aria-labelledby="linkFormulario">
                     
             <br>
             <h3>Cadastrar novo(a) ator/atriz:</h3>
@@ -210,58 +215,56 @@
 
                 <button type="submit" name="btnSubmitAtores" class="btn btn-primary w-100">Cadastrar</button><br>
                 <br>
+            </form>
 
-
-
-
-
-                    </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                <div class="tab-pane fade" id="tabExibicao" role="tabpanel" aria-labelledby="linkExibicao">
+        </div>
+        <div class="tab-pane fade show active" id="tabExibicao" role="tabpanel" aria-labelledby="linkExibicao">
             <br>
-            <h3>Atores e atrizes cadastrados:</h3>
-            <?php
-                $sql = "SELECT a.nome, a.genero, a.idade, a.altura, a.cache, a.linguas, a.biografia, c.cidade
-                        FROM atores a
-                        JOIN cidades c ON a.cidades_id = c.id";
+            
+            <br>
+                    <h2 class="text-center">Atores cadastrados:</h2><br>
+                    <div class="row">
+                        <?php
+                            $sql = "SELECT * FROM vw_retorna_atores";
+                            if ($res=mysqli_query($con, $sql)) {
 
-                if ($res = mysqli_query($con, $sql)) {
-                    while ($ator = mysqli_fetch_assoc($res)) {
-                        echo "<div class='card mb-3'>";
-                        echo "<div class='card-body'>";
-                        echo "<h5 class='card-title'>{$ator['nome']}</h5>";
-                        echo "<p class='card-text'>Gênero: {$ator['genero']}</p>";
-                        echo "<p class='card-text'>Idade: {$ator['idade']}</p>";
-                        echo "<p class='card-text'>Altura: {$ator['altura']}</p>";
-                        echo "<p class='card-text'>Cachê: {$ator['cache']}</p>";
-                        echo "<p class='card-text'>Línguas: {$ator['linguas']}</p>";
-                        echo "<p class='card-text'>Biografia: {$ator['biografia']}</p>";
-                        echo "<p class='card-text'>Cidade: {$ator['cidade']}</p>";
-                        echo "</div>";
-                        echo "</div>";
-                    }
-                }
-            ?>
-                    Exibição dos cadastros
+                                $nomeAtor = array();
+                                $idAtor = array();
+                                $imagemAtor = array();
+                                $i = 0;
+
+                                while($reg=mysqli_fetch_assoc($res)) {
+                                    $nomeAtor[$i] = $reg['nome_ator'];
+                                    $idAtor[$i] = $reg['id_ator'];
+                                    $imagemAtor[$i] = $reg['caminho_imagem'];
+
+                                    if (!isset($imagemAtor[$i])){
+                                        $imagemAtor[$i] = "sem_imagem.jpg";
+                                    }
+                                    ?>
+                                    <div class="col-md-4 itensCadastrados text-center">
+                                        <img src="imagens/atores/<?php echo  $imagemAtor[$i]; ?>" class="img-responsive img-thumbnail">
+                                        <h4><?php echo  $nomeAtor[$i]; ?></h4>
+                                        <div class="btn-group" role="group" aria-label="Basic sample">
+                                            <a href="editaAtorAdm.php?editaAtor=<?php echo $idAtor[$i]; ?>&nomeAtor=<?php echo $nomeAtor[$i]; ?>" class="btn btn-primary">Editar</a>
+                                            <a href="atoresAdm.php?excluirAtorr=<?php echo $idAtor[$i]; ?>" class="btn btn-secondary" onclick="return confirm('Tem certeza que deseja eliminar este(a) ator/atriz')">Eliminar</a>
+
+                                        </div>
+                                    </div>
+
+                                    <?php
+                                    $i++;
+                                }
+                            } else{
+                                echo "Erro ao executar a query!";
+                            }
+                        ?>
+                    </div>
                 </div>
             </div>
             <?php
                 }
             ?>
-
         </div>
     </div>
 </main>    

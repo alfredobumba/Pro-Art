@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html>
 <?php
-    if (!isset($_SESSION)) {
-        session_start();
+session_start();
 
-    }
-    if (isset($_SESSION['acesso'])) {
-        ?>
-        <center><h2>A sessão já está aberta</h2>
-            <br>
-            <h4>Você será redirecionado para página de Administração.</h4>
-        </center>
-        <meta http-equiv="refresh" content=2;url="adm.php">
-        <?php
+if (isset($_SESSION['acesso'])) {
+    echo '<center><h2>A sessão já está aberta</h2><br>';
+    echo '<h4>Você será redirecionado para página de Administração.</h4></center>';
+    echo '<meta http-equiv="refresh" content=2;url="adm.php">';
+    exit();
+}
 
-    }else{
-
+include_once "conexao.php";
 ?>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
 <head>
-    <?php  include_once "header.html";
-            include_once "conexao.php";
-     ?>
-<title>Home</title>
+    <?php include_once "header.html"; ?>
+    <title>Home</title>
     <script type="text/javascript">
         function validaCampos() {
             if (document.fmlogin.txtLogin.value === "") {
@@ -34,12 +28,11 @@
                 document.fmlogin.txtSenha.focus();
                 return false;
             }
-            return true; // Adicione esta linha para garantir que o formulário seja enviado se tudo estiver correto
+            return true;
         }
     </script>
 </head>
 <body class="administracao">
-
     <!-- MENU SUPERIOR -->
     <?php include_once "menuSuperior.html"; ?>
     <!-- FIM MENU SUPERIOR -->
@@ -55,34 +48,30 @@
             </div>
             <div class="col-md-5 col-sm-5">
                 <?php
-                if(isset($_POST['btnSubmitLogin'])){
-                    $usuario = $_POST['txtLogin'];
-                    $senha = $_POST['txtSenha'];
+                if (isset($_POST['btnSubmitLogin'])) {
+                    $usuario = mysqli_real_escape_string($con, $_POST['txtLogin']);
+                    $senha = mysqli_real_escape_string($con, $_POST['txtSenha']);
                     $sql = "SELECT login, senha FROM usuarios WHERE login = '$usuario' AND senha = '$senha'";
-                    if ($res=mysqli_query($con,$sql)) {
-                        $linhas = mysqli_affected_rows($con);
-                        if ($linhas > 0 ) {
-                            $_SESSION['acesso']=true;
-                            ?>
-                            <div class="alert alert-success" role="alert">
-                                <h2 class="text-center">Login efetuado com sucesso!</h2>
-                                <br>
-                            </div>
-                            <meta http-equiv="refresh" content=2;url="adm.php">
-                        <?php
-                        }else{ ?>
-                             <div class="alert alert-danger" role="alert">
-                                <h2 class="text-center">Usuário ou senha inválido!</h2>
-                                <br><br>
-                                <a href="login.php" class="alert-link" target=" _self">Voltar</a>
-                            </div>
-                            <?php
-                        }
-                    }else{
-                        echo"<h3>Erro ao executar a query!</h3>";
-                    }
 
-                    }else{
+                    $res = mysqli_query($con, $sql);
+                    if ($res) {
+                        $linhas = mysqli_num_rows($res);
+                        if ($linhas > 0) {
+                            $_SESSION['acesso'] = true;
+                            echo '<div class="alert alert-success" role="alert">';
+                            echo '<h2 class="text-center">Login efetuado com sucesso!</h2><br>';
+                            echo '</div>';
+                            echo '<meta http-equiv="refresh" content=2;url="adm.php">';
+                        } else {
+                            echo '<div class="alert alert-danger" role="alert">';
+                            echo '<h2 class="text-center">Usuário ou senha inválido!</h2><br><br>';
+                            echo '<a href="login.php" class="alert-link" target="_self">Voltar</a>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo "<h3>Erro ao executar a query!</h3>";
+                    }
+                } else {
                 ?>
                 <form name="fmlogin" method="post" action="login.php" onsubmit="return validaCampos();">
                     <h2 class="text-center">Insira o seu login e senha:</h2><br>
@@ -91,7 +80,7 @@
                     <button type="submit" name="btnSubmitLogin" class="btn btn-primary w-100">Entrar</button>
                 </form>
                 <?php
-                    }
+                }
                 ?>
             </div>
         </div>
@@ -100,8 +89,4 @@
     <!-- ENCERRANDO A CONEXÃO COM BANCO DE DADOS -->
     <?php if (isset($con)) { mysqli_close($con); } ?>
 </body>
-<?php
-    }
-?>
-
 </html>

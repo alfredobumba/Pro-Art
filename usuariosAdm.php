@@ -9,6 +9,7 @@
 <head>
     <?php  include_once "header.html";
             include_once "conexao.php";
+            include_once "funcoes.php";
      ?>
 
     <title>Home</title>
@@ -75,6 +76,10 @@
                     $salt = '123';
 
                     $sql = "CALL sp_cadastra_usuario ( ' $nome', '$login', '$email','$senha','$salt', $nivel, @saida,@rotulo)";
+
+                    executaQuery($sql, "usuariosAdm.php");
+
+                    /*
                     if ($res = mysqli_query($con, $sql)) {
                         $reg = mysqli_fetch_assoc($res);
                         
@@ -113,8 +118,9 @@
                         }
                     } else {
                         echo "ERRO ao executar a query.";
-                    }
-                    
+                        }
+                    */
+
                 }else{
             ?>
 

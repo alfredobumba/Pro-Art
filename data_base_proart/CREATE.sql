@@ -184,3 +184,78 @@ FOREIGN KEY (markers_id)
 REFERENCES markers(id);
 
 
+
+
+
+SELECT
+    a.id AS id_ator,
+    a.nome AS nome_ator,
+    a.biografia AS biografia_ator,
+    a.link AS link_ator,
+    a.cidades_id AS cidade_ator,
+    a.idade AS idade_ator,
+    a.altura AS altura_ator,
+    a.cache AS cache_ator,
+    a.linguas AS lingua_ator,
+    a.genero AS genero_ator,
+    a.markers_id AS marker_ator,
+    b.caminho AS caminho_imagem
+FROM atores AS a
+LEFT JOIN imagens AS b ON a.id = b.atores_id
+GROUP BY a.id
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deleta_atores`(IN `id_ator` INT, OUT `saida` VARCHAR(80), OUT `saida_rotulo` VARCHAR(15))
+BEGIN
+    -- Verificar se o ator está cadastrado
+    IF NOT EXISTS (SELECT 1 FROM atores WHERE id = id_ator) THEN
+        SET saida_rotulo = 'OPS!';
+        SET saida = 'Ator/Atriz não encontrado(a)!';
+    ELSE
+		 -- remover ator da tabela ofertas_atores
+         DELETE FROM ofertas_atores WHERE atores_id = id_ator;
+        -- Primeiro, remover as imagens do ator
+        DELETE FROM imagens WHERE atores_id = id_ator;
+        
+        -- Depois deletar o ator
+        DELETE FROM atores WHERE id = id_ator;
+        
+        IF ROW_COUNT() = 0 THEN
+            SET saida_rotulo = 'ERRO!';
+            SET saida = 'Ator/Atriz não foi excluido(a)!';
+        ELSE
+            SET saida_rotulo = 'Tudo certo!';
+            SET saida = 'Ator/Atriz excluido(a) com sucesso!';
+        END IF;
+    END IF;
+    
+    -- Selecionar os resultados para saída
+    SELECT saida_rotulo, saida;
+END
+
+
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_deleta_cidade`(
+    id_cidade INT, 
+    nome_cidade VARCHAR(70), 
+    OUT saida VARCHAR(80),
+    out saida_rotulo VARCHAR(15)
+)
+BEGIN
+	IF NOT EXISTS (SELECT * FROM cidades WHERE id = id_cidade) THEN
+    BEGIN
+		SET saida_rotulo = "OPS!";
+		SET saida = "Cidade não encontrada!.";
+    END;
+	ELSE
+		DELETE from cidades WHERE id = id_cidade;
+         IF ROW_COUNT() = 0 THEN
+			SET saida_rotulo = "ERRO!";
+			SET saida = "A cidade não foi excluída!";
+		ELSE
+			SET saida_rotulo = "Tudo certo!";
+			SET saida = "Cidade  excluída com sucesso";
+		END IF ;
+	END IF ;
+    SELECT saida_rotulo, saida;
+END
