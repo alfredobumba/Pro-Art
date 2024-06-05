@@ -29,7 +29,7 @@
                 if (isset($_GET['excluirAtor'])) {
                     $idAtor = $_GET['excluirAtor'];
                     // Excluir imagens do ator
-                    excluiImagens($idAtor, "atores");
+                    excluiTodasImagens($idAtor, "atores");
 
                     $sql = "CALL sp_deleta_atores($idAtor, @saida, @saida_rotulo)";
                     if (executaQuery($sql)) {
@@ -38,6 +38,7 @@
                         echo "<script>alert('Erro ao excluir ator!');</script>";
                     }
                 } elseif (isset($_GET['editaAtor'])) {
+
 
                     /* CRIAÇÃO DE ARRAYS DE SESSÃO */
                     $_SESSION['caminho_imagem'] = array();
@@ -67,8 +68,66 @@
                         while ($reg = mysqli_fetch_assoc($res)) {
                             $imagensAtor[$i] = $reg['caminho'];
                             $imagensId[$i] = $reg['id'];
+
+                            $_SESSION['caminho_imagem'][$i] = $reg['caminho'];
+                            $_SESSION['id_imagem'][$i] =  $reg['id'];
+
+        
                             $i++;
                         }
+                    } elseif(isset($_GET['btnSubmitAtores'])) {
+
+                        $_SESSION['caminho_imagem'][$i] = $reg['caminho'];
+                        $_SESSION['id_imagem'][$i] =  $reg['id'];
+                        $id_Ator = $_SESSION['id_ator'];
+                        unset($_SESSION['id_ator']);
+
+                        $nomeImagem = array();
+                        $idImagem = array();
+
+                        for ($i=0; $i <3 ; $i++) {
+
+                            $nomeImagem[$i] = $_FILES["fileImagemAtor" $i ]['name'];
+                            $idImagem[$i] = "";
+
+                            if ( $nomeImagem[$i] <> "" && isset($_FILES["fileImagemAtor" $i ]['name'])){
+
+                                $nomeImagem[$i] = enviaImagem($_FILES["fileImagemAtor" $i ]['name'], "atores", $_FILES["fileImagemAtor" $i ]['tmp_name']);
+
+                            }elseif ( isset($_SESSION['caminho_imagem'][$i])) {
+
+                                $nomeImagem[$i] = $_SESSION['caminho_imagem'][$i];
+
+                            }
+                            if ( isset($_SESSION['id_imagem'][$i])) {
+
+                                $idImagem[$i] = $_SESSION['id_imagem'][$i];
+
+                            if ( isset($_SESSION['caminho_imagem'][$i] &&isset($nomeImagem[$i]))) {
+                                if ($_SESSION['caminho_imagem'][$i] <> $nomeImagem[$i]) {
+                                    excluiUmaImagem($idImagem[$i], "atores");
+                                }
+
+                            }
+
+                            if ( isset($_POST['chExcluir' $i])) {
+                                excluiUmaImagem($idImagem[$i], "atores");
+                                $idImagem[$i] = "";
+                            } 
+                        } /* FIM DO FOR */ 
+
+                        if (isset($_SESSION['caminho_imagem']) || $_SESSION['id_imagem']) {
+                            unset($_SESSION['caminho_imagem']);
+                            unset($_SESSION['id_imagem']);
+                        }
+
+                        $nomeAtor = $_POST['txtNome'];
+                        $cidadeAtor = $_POST['selCidade'];
+                        $biografiaAtor = $_POST['txtBiografia'];
+
+                        /* CALL sp_edita_ator(92, 'Kelvin',1,'um ator', 'imagem_2.jpg', '','','','','',@saida,@saida_rotulo); */
+                        $sql = "CALL sp_edita_ator('$idAtor', ' $nomeAtor', ' $cidadeAtor', ' $biografiaAtor', $nomeImagem[0], '$idImagem[0]',)"
+
                     } else {
                         echo "Algo deu errado ao executar a query!";
                     }
@@ -161,6 +220,7 @@
              <br><br> 
             </form>
             <?php
+
                 }
             ?>
           </div>

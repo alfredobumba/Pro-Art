@@ -99,7 +99,7 @@ function executaQuery($sql, $paginaDeRetorno) {
 
     
 //FUNÇÃO PARA EXLUIR TODAS AS IMAGENS DE UM ATOR, OFERTAS, AGENCIAS, PRODUTORAS, BANNER
-function  excluiImagens($id, $alvo) {
+function  excluiTodasImagens($id, $alvo) {
     include_once "conexao.php";
 
     $imagens = array();
@@ -107,7 +107,7 @@ function  excluiImagens($id, $alvo) {
     $where = $alvo."_id";
 
 
-    //SELECT * FROM imagens WHERE atores_id = 3
+    //SELECT * FROM imagens WHERE atores_id = 92
     $sql = "SELECT * FROM imagens WHERE ".$where." = $id";
     if ($res = mysqli_query($con,$sql)) {
         $linhas = mysqli_affected_rows($con);
@@ -141,4 +141,92 @@ function  excluiImagens($id, $alvo) {
         mysqli_close($con);
     }
 }
+
+
+function  excluiImagem($id, $alvo) {
+    include_once "conexao.php";
+
+    $imagens = array();
+    $linhas = 0;
+    $where = $alvo."_id";
+
+
+    //SELECT * FROM imagens WHERE atores_id = 92
+    $sql = "SELECT * FROM imagens WHERE ".$where." = $id";
+    if ($res = mysqli_query($con,$sql)) {
+        $linhas = mysqli_affected_rows($con);
+        if ($linhas > 0) {
+            while ($reg = mysqli_fetch_assoc($res)) {
+
+                $delete = unlink("imagens/".$alvo."/".$reg["caminho"]);
+                if (!$delete) {
+                    ?>
+                    <div class="alert danger" role="alert">
+                        <h3>Erro!</h3>
+                        <p>Algo deu errado ao excluír a imagem: <?php $reg["caminho"]; ?></p>
+                        <br>
+                    </div>
+                    <?php
+                }
+            }
+        }
+    }else{ ?>
+
+            <div class="alert danger" role="alert">
+                <h3>Erro!</h3>
+                <p>Algo deu errado ao executar a query!</p>
+                <br>
+            </div>
+        <?php
+    }
+
+     // FECHANDO A CONEXÃO COM O BANCO DE DADOS
+     if (isset($con)) {
+        mysqli_close($con);
+    }
+}
+
+function  excluiUmaImagens($id, $alvo) {
+    include_once "conexao.php";
+
+    $imagens = array();
+    $linhas = 0;
+    $where = $alvo."_id";
+
+
+    //SELECT * FROM imagens WHERE atores_id = 92
+    $sql = "SELECT * FROM imagens WHERE id = $id";
+    if ($res = mysqli_query($con,$sql)) {
+        $linhas = mysqli_affected_rows($con);
+        if ($linhas > 0) {
+            while ($reg = mysqli_fetch_assoc($res)) {
+
+                $delete = unlink("imagens/".$alvo."/".$reg["caminho"]);
+                if (!$delete) {
+                    ?>
+                    <div class="alert danger" role="alert">
+                        <h3>Erro!</h3>
+                        <p>Algo deu errado ao excluír a imagem: <?php $reg["caminho"]; ?></p>
+                        <br>
+                    </div>
+                    <?php
+                }
+            }
+        }
+    }else{ ?>
+
+            <div class="alert danger" role="alert">
+                <h3>Erro!</h3>
+                <p>Algo deu errado ao executar a query!</p>
+                <br>
+            </div>
+        <?php
+    }
+
+     // FECHANDO A CONEXÃO COM O BANCO DE DADOS
+     if (isset($con)) {
+        mysqli_close($con);
+    }
+}
+
       ?>
