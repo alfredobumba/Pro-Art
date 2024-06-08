@@ -54,16 +54,16 @@
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="agenciasAdm.php">
             <i class="fa fa-bullhorn" aria-hidden="true"></i>
                 <p>Agências</p>
             </a>
             </div>
 
             <div class="col-md-3 opcoes">
-            <a href="#">
+            <a href="map.php">
             <i class="fa fa-film" aria-hidden="true"></i>
-                <p> Cadastrar Nova Produtora</p>
+                <p>Mapa</p>
             </a>
             </div>
 

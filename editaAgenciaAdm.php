@@ -12,14 +12,14 @@
           include_once "conexao.php"; 
           ?>
 
-      <title>HOME</title>
+      <title>Agências</title>
       <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript">
     function validaCampos(){
-        if (document.fmCidades.txtCidade.value == "") {
+        if (document.fmAgencia.txtAgencia.value == "") {
             Swal.fire({
                 title: 'Erro!',
-                text: 'Por favor, preencha o nome da Cidade.',
+                text: 'Por favor, preencha o nome da Agências.',
                 icon: 'error',
                 confirmButtonText: 'OK',
                 customClass: {
@@ -35,7 +35,7 @@
                     no-repeat
                 `
             });
-            document.fmCategorias.txtCategoria.focus();
+            document.fmAgencia.txtAgencia.focus();
             return false;
         }
     }
@@ -54,19 +54,19 @@
       
      <!-- INÍCIO DA VITRINE -->
 <main class="container mt-5">
-    <h1 class="text-center">Cidades-Administração</h1><br>
+    <h1 class="text-center">Agências-Administração</h1><br>
     <div class="row text-center">
         <div class="col-md-3 col-sm-3">
             <?php include_once "menuAdm.html" ?>
         </div>
         <div class="col-md-9 col-sm-9">
             <?php
-            if (isset($_GET['eliminarCidade'])) {
-                $idCidade = $_GET['eliminarCidade'];
-                $sql = "CALL sp_deleta_cidade('$idCidade', @saida, @rotulo);";
+            if (isset($_GET['eliminarAgencia'])) {
+                $idAgencia = $_GET['eliminarAgencia'];
+                $sql = "CALL sp_deleta_agencia('$idAgencia', @saida, @rotulo);";
                 if ($res = mysqli_query($con, $sql)) {
                     $reg = mysqli_fetch_assoc($res);
-                    $saida = isset($reg['saida']) ? $reg['saida'] : "Cidade excluída com sucesso";
+                    $saida = isset($reg['saida']) ? $reg['saida'] : "Agência excluída com sucesso";
                     $rotulo = isset($reg['saida_rotulo']) ? $reg['saida_rotulo'] : "";
 
                     switch ($rotulo) {
@@ -85,7 +85,7 @@
                     <div class="alert <?php echo $alert; ?>" role="alert">
                         <h3><?php echo $rotulo; ?></h3>
                         <h3><?php echo $saida; ?></h3>
-                        <a href='cidadesAdm.php' class="alert-link" target='_self'>Voltar</a>
+                        <a href='agenciasAdm.php' class="alert-link" target='_self'>Voltar</a>
                     </div>
 
                     <?php
@@ -100,27 +100,27 @@
                 } else {
                     echo "ERRO ao executar a query ";
                 }
-            } else if (isset($_GET['editaCidade'])) {
-                $_SESSION['idCidade'] = $_GET['editaCidade'];
-                $cidade = $_GET['cidade'];
+            } else if (isset($_GET['editaAgencia'])) {
+                $_SESSION['idAgencia'] = $_GET['editaAgencia'];
+                $cidade = $_GET['agencia'];
                 ?>
 
-                <h2 class="text-center">Alteração de Cidade</h2>
-                <form name="fmCidades" method="get" action="editaCidadeAdm.php" onsubmit="return validaCampos()">
-                    <label for="txtCidade">Nome da Cidade:</label><br>
-                    <input type="text" id="txtCidade" name="txtCidade" value="<?php echo $cidade; ?>"
+                <h2 class="text-center">Alteração de Agência</h2>
+                <form name="fmAgencias" method="get" action="editaAgenciaAdm.php" onsubmit="return validaCampos()">
+                    <label for="txtAgencia">Nome da Agencia:</label><br>
+                    <input type="text" id="txtAgencia" name="txtAgencia" value="<?php echo $agencia; ?>"
                            class="form-control" maxlength="50"><br>
-                    <button type="submit" class="btn btn-primary w-100" name="btnSubmitCidade">Alterar Cidade
+                    <button type="submit" class="btn btn-primary w-100" name="btnSubmitAgencia">Alterar Agencia
                     </button><br>
                 </form>
                 <hr/>
 
                 <?php
-            } else if (isset($_GET['btnSubmitCidade'])) {
-                $cidade = $_GET['txtCidade'];
-                $idCidade = $_SESSION['idCidade'];
-                unset($_SESSION['idCidade']);
-                $sql = "CALL sp_altera_cidade('$idCidade', '$cidade', @saida, @rotulo);";
+            } else if (isset($_GET['btnSubmitAgencia'])) {
+                $cgencia = $_GET['txtAgencia'];
+                $idAgencia = $_SESSION['idAgencia'];
+                unset($_SESSION['idAgencia']);
+                $sql = "CALL sp_altera_agencia('$idAgencia', '$nomeAgencia', @saida, @rotulo);";
 
                 if ($res = mysqli_query($con, $sql)) {
                     $reg = mysqli_fetch_assoc($res);
@@ -143,7 +143,7 @@
                     <div class="alert <?php echo $alert; ?>" role="alert">
                         <h3><?php echo $rotulo; ?></h3>
                         <h3><?php echo $saida; ?></h3>
-                        <a href='cidadesAdm.php' class="alert-link" target='_self'>Voltar</a>
+                        <a href='agenciasAdm.php' class="alert-link" target='_self'>Voltar</a>
                     </div>
 
                     <?php
@@ -165,17 +165,17 @@
 </div>
                 <?php
    mysqli_next_result($con); // Prepara o próximo conjunto de resultados
-   $sql = "SELECT * FROM cidades;";
+   $sql = "SELECT * FROM agencias;";
    if ($res = mysqli_query($con, $sql)) {
-       $cidade = array();
+       $agencia = array();
        while($reg=mysqli_fetch_assoc($res)){
-           if (isset($reg['cidade'])) {
-               $cidade[] = $reg['cidade'];
+           if (isset($reg['agencia'])) {
+               $agencia[] = $reg['agencia'];
            }
        }
        mysqli_free_result($res); // Libera o resultado da memória
-       if (isset($cidade[0])) {
-           echo $cidade[0];
+       if (isset($agencia[0])) {
+           echo $agencia[0];
        }
    } else {
        echo "Erro ao executar a consulta: " . mysqli_error($con);
