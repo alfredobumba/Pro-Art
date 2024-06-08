@@ -216,8 +216,10 @@ body {
   /* Para galeria*/
   .img {
     max-height: 600px; /* Ajuste este valor conforme necessário */
-    width: 100%; /* Aumente este valor para aumentar a largura */
+    width: 80%; /* Aumente este valor para aumentar a largura */
     object-fit: cover; /* Isso ajudará a manter a proporção da imagem */
+    border-radius: 20px;
+    margin-bottom: 50px;
   }
 
   .bw-to-color {

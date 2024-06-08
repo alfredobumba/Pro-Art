@@ -61,9 +61,9 @@
                     $alert = '';
 
                     if(isset($_GET['btnSubmitCidade'])){
-                        $nomeCidade = $_GET['txtCidade'];
-                        $link = $nomeCidade;
-                        $sql = "CALL sp_cadastra_cidade('$nomeCidade', '$link' ,@saida, @rotulo);";
+                        $cidade = $_GET['txtCidade'];
+                        $link = $cidade;
+                        $sql = "CALL sp_cadastra_cidade('$cidade', '$link' ,@saida, @rotulo);";
                         if($res=mysqli_query($con,$sql)){
                             $reg=mysqli_fetch_assoc($res);
                             $saida = isset($reg['saida']) ? $reg['saida'] : '';

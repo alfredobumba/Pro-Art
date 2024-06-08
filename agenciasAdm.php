@@ -80,64 +80,28 @@
                     }
 
 
-                    $nome = $_POST['txtNome'];
-                    $genero = $_POST['selGenero'];
-                    $altura = $_POST['altura'];
-                    $linguas = $_POST['linguas'];
-                    $idade = $_POST['idade'];
-                    $cache = $_POST['cache'];
-                    $cidade = $_POST['selCidade'];
-                    $bio = $_POST['txtBiografia'];
-                    
-                    $sql = "CALL sp_cadastra_atores('$nome','$cidade', '$bio', '$idade', '$altura', '$cache', '$linguas', '$genero', '$nomeImagem1', '$nomeImagem2', '$nomeImagem3',@saida, @saida_rotulo)";
+                     // Recupere os dados do formulário
+                    $nome_agencia = $_POST['txtNome'];
+                    $cidade_agencia = $_POST['selCidade'];
+                    $biografia_agencia = $_POST['txtBiografia'];
+                    $marker_agencia = isset($_POST['marker']) ? $_POST['marker'] : '';
 
+                    // Verifique se o valor do marcador enviado está presente na tabela de marcadores
+                    $sql_check_marker = "SELECT COUNT(*) AS count FROM markers WHERE id = '$marker_agencia'";
+                    $result_check_marker = mysqli_query($con, $sql_check_marker);
+                    $row_check_marker = mysqli_fetch_assoc($result_check_marker);
 
-                    executaQuery($sql, "agenciasAdm.php");
-                    /*
-                    if ($res = mysqli_query($con,$sql)) {
-                        $reg = mysqli_fetch_assoc($res);
-                        
-                        $saida = isset($reg['saida']) ? $reg['saida'] : '';
-                        $rotulo = isset($reg['saida_rotulo']) ? $reg['saida_rotulo'] : '';
-                    
-                        // Definindo a classe de alerta com base no rótulo
-                        switch ($rotulo) {
-                            case 'Tudo certo!':
-                                $alert = 'alert-success';
-                                break;
-                            case 'OPS!':
-                                $alert = 'alert-warning';
-                                break;
-                            case 'ERRO!':
-                                $alert = 'alert-danger';
-                                break;
-                            default:
-                                $alert = 'alert-info';
-                                break;
-                        }
-                    
-                        // Exibindo a mensagem de alerta
-                        echo "<div class='alert $alert' role='alert'>";
-                        echo "<h3>$rotulo</h3>";
-                        echo "<p>$saida</p>";
-                        echo "<a href='atoresAdm.php' class='alert-link' target='_self'>Voltar</a>";
-                        echo "</div>";
-                    
-                        // Liberando o resultado da memória
-                        mysqli_free_result($res);
-                    
-                        // Limpando quaisquer resultados pendentes
-                        while (mysqli_more_results($con)) {
-                            mysqli_next_result($con);
-                        }
+                    if ($row_check_marker['count'] > 0) {
+                        // O marcador existe na tabela de marcadores; agora você pode prosseguir com a inserção na tabela de agências
+                        $sql = "CALL sp_cadastra_agencias('$nome_agencia', '$cidade_agencia', '$biografia_agencia', '$marker_agencia', '$nomeImagem1', '$nomeImagem2', '$nomeImagem3', @saida, @saida_rotulo)";
+                        $result = mysqli_query($con, $sql);
+                        executaQuery($sql, "agenciasAdm.php");
                     } else {
-                        echo "ERRO ao executar a query.";
-                     }
-                     */
+                        // O marcador não existe na tabela de marcadores; exiba uma mensagem de erro ou tome outra ação adequada
+                        echo "Erro: O marcador especificado não existe na tabela de marcadores.";
+                    }
 
-                }else{
-
-            
+                } else {
             ?>
             <ul class="nav nav-tabs" role="tablist">
                  <li class=" nav-item" role="presentation">
@@ -207,7 +171,7 @@
                     <h2 class="text-center">Agências cadastrados:</h2><br>
                     <div class="row">
                         <?php
-                            $sql = "SELECT * FROM vw_retorna_atores";
+                            $sql = "SELECT * FROM vw_retorna_agencias";
                             if ($res=mysqli_query($con, $sql)) {
 
                                 $nomeAgencia = array();
